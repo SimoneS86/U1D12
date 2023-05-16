@@ -22,21 +22,21 @@ public class GestioneEventi {
 
 		// ************************ SAVE *********************
 		logger.info("ESERCIZIO 1: SAVE");
-		Evento event6 = new Evento("event6", LocalDate.now(), "bruttissimo", Evento.TipoEvento.PUBBLICO, 325);
-		ed.save(event6);
+		Evento event8 = new Evento("event8", LocalDate.now(), "niente male", Evento.TipoEvento.PRIVATO, 15);
+		ed.save(event8);
 
 		// ************************ GET BY ID *********************
 		logger.info("ESERCIZIO 2: GET BY ID");
-		logger.info(ed.getById((long) 4).toString());
+		logger.info(ed.getById(4L).toString());
 
 		// ************************ DELETE *********************
 		logger.info("ESERCIZIO 3: DELETE");
-		Evento event1 = ed.getById((long) 7);
+		Evento event1 = ed.getById(9L);
 		ed.delete(event1);
 
 		// ************************ REFRESH ********************
 		logger.info("ESERCIZIO 4: REFRESH");
-		Evento event2 = ed.getById((long) 6);
+		Evento event2 = ed.getById(6L);
 		event2.setTitolo("superEvent");
 		ed.refresh(event2);
 

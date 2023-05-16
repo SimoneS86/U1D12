@@ -11,13 +11,12 @@ import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Entity
 @Table(name = "evento")
+
 @Getter
 @Setter
-@ToString
 
 public class Evento {
 	@Id
@@ -45,38 +44,6 @@ public class Evento {
 
 	public enum TipoEvento {
 		PUBBLICO, PRIVATO
-	}
-
-	public String getTitolo() {
-		return titolo;
-	}
-
-	public void setTitolo(String titolo) {
-		this.titolo = titolo;
-	}
-
-	public LocalDate getDataEvento() {
-		return dataEvento;
-	}
-
-	public void setDataEvento(LocalDate dataEvento) {
-		this.dataEvento = dataEvento;
-	}
-
-	public String getDescrizione() {
-		return descrizione;
-	}
-
-	public void setDescrizione(String descrizione) {
-		this.descrizione = descrizione;
-	}
-
-	public int getnumeroMassimoPartecipanti() {
-		return numeroMassimoPartecipanti;
-	}
-
-	public void numeroMassimoPartecipanti(int numero) {
-		this.numeroMassimoPartecipanti = numero;
 	}
 
 	@Override
