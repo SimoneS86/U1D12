@@ -5,40 +5,47 @@ import java.time.LocalDate;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import dao.EventoDAO;
+import dao.LocationDAO;
+import dao.PartecipazioneDAO;
+import dao.PersonaDAO;
 import entities.Evento;
+import entities.Evento.TipoEvento;
+import entities.Location;
+import entities.Partecipazione;
+import entities.Persona;
 import util.JpaUtil;
 
 public class GestioneEventi {
-	private static Logger logger = LoggerFactory.getLogger(GestioneEventi.class);
 	private static EntityManagerFactory emf = JpaUtil.getEntityManagerFactory();
 
 	public static void main(String[] args) {
 		EntityManager em = emf.createEntityManager();
-		EventoDAO ed = new EventoDAO(em);
 
-		// ************************ SAVE *********************
-		logger.info("ESERCIZIO 1: SAVE");
-		Evento event8 = new Evento("event8", LocalDate.now(), "niente male", Evento.TipoEvento.PRIVATO, 15);
-		ed.save(event8);
+		PersonaDAO personaDAO = new PersonaDAO(em);
+		LocationDAO locationDAO = new LocationDAO(em);
+		EventoDAO eventoDAO = new EventoDAO(em);
+		PartecipazioneDAO partecipazioneDAO = new PartecipazioneDAO(em);
 
-		// ************************ GET BY ID *********************
-		logger.info("ESERCIZIO 2: GET BY ID");
-		logger.info(ed.getById(4L).toString());
+		Persona persona = new Persona("Ajeje", "Brazolf", "ajeje.brazolf@example.com", LocalDate.of(1990, 5, 10),
+				Persona.Sesso.MASCHIO);
+		personaDAO.save(persona);
 
-		// ************************ DELETE *********************
-		logger.info("ESERCIZIO 3: DELETE");
-		Evento event1 = ed.getById(9L);
-		ed.delete(event1);
+		Location location = new Location("Il paradiso della brucola", "Milano");
+		locationDAO.save(location);
 
-		// ************************ REFRESH ********************
-		logger.info("ESERCIZIO 4: REFRESH");
-		Evento event2 = ed.getById(6L);
-		event2.setTitolo("superEvent");
-		ed.refresh(event2);
+		Evento evento = new Evento();
+		evento.setTitolo("Tutto sulla ferramenta");
+		evento.setDataEvento(LocalDate.of(2023, 7, 25));
+		evento.setDescrizione("Una conferenza sulle brucole");
+		evento.setTipoEvento(TipoEvento.PRIVATO);
+		evento.setNumeroMassimoPartecipanti(50);
+		evento.setLocation(location);
+		eventoDAO.save(evento);
+
+		Partecipazione partecipazione = new Partecipazione(persona, evento,
+				Partecipazione.StatoPartecipazione.DA_CONFERMARE);
+		partecipazioneDAO.save(partecipazione);
 
 		em.close();
 		emf.close();
