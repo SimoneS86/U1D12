@@ -1,8 +1,13 @@
 package entities;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
@@ -23,6 +28,9 @@ public class Location {
 	private Long id;
 	private String nome;
 	private String citta;
+
+	@OneToMany(mappedBy = "location", cascade = CascadeType.ALL)
+	private Set<Evento> eventi = new HashSet<>();
 
 	public Location(String nome, String citta) {
 		this.nome = nome;
