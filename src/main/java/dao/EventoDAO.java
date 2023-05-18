@@ -1,11 +1,16 @@
 package dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import entities.Concerto;
+import entities.Concerto.Genere;
 import entities.Evento;
 
 public class EventoDAO {
@@ -14,6 +19,30 @@ public class EventoDAO {
 
 	public EventoDAO(EntityManager em) {
 		this.em = em;
+	}
+
+	public List<Concerto> getConcertiInStreaming(boolean inStreaming) {
+		try {
+			TypedQuery<Concerto> query = em.createQuery("SELECT c FROM Concerto c WHERE c.inStreaming = :inStreaming",
+					Concerto.class);
+			query.setParameter("inStreaming", inStreaming);
+			return query.getResultList();
+		} catch (Exception e) {
+			logger.error("Errore durante il recupero dei concerti in streaming.", e);
+			throw e;
+		}
+	}
+
+	public List<Concerto> getConcertiPerGenere(Genere generi) {
+		try {
+			TypedQuery<Concerto> query = em.createQuery("SELECT c FROM Concerto c WHERE c.genere IN :generi",
+					Concerto.class);
+			query.setParameter("generi", generi);
+			return query.getResultList();
+		} catch (Exception e) {
+			logger.error("Errore durante il recupero dei concerti per genere.", e);
+			throw e;
+		}
 	}
 
 	public void save(Evento event) {

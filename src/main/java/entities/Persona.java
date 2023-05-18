@@ -1,12 +1,17 @@
 package entities;
 
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
@@ -29,7 +34,14 @@ public class Persona {
 	private String cognome;
 	private String email;
 	private LocalDate dataNascita;
+	@Enumerated(EnumType.STRING)
 	private Sesso sesso;
+
+	@ManyToMany(mappedBy = "atleti")
+	private Set<GaraDiAtletica> garePartecipate = new HashSet<>();
+
+	@OneToMany(mappedBy = "vincitore")
+	private Set<GaraDiAtletica> gareVinte = new HashSet<>();
 
 	@OneToMany(mappedBy = "persona", cascade = CascadeType.ALL)
 	private List<Partecipazione> listaPartecipazioni;
